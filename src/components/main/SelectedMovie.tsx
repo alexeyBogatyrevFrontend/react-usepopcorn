@@ -68,6 +68,20 @@ const SelectedMovie: FC<SelectedMovieProps> = ({
 	} = movie
 
 	useEffect(() => {
+		const callback = (e: KeyboardEvent) => {
+			if (e.code === 'Escape') {
+				setSelectedId('')
+			}
+		}
+
+		document.addEventListener('keydown', callback)
+
+		return () => {
+			document.removeEventListener('keydown', callback)
+		}
+	}, [setSelectedId])
+
+	useEffect(() => {
 		const getMovieDetails = async () => {
 			setIsLoading(true)
 
@@ -80,7 +94,7 @@ const SelectedMovie: FC<SelectedMovieProps> = ({
 
 				setMovie(data)
 			} catch (error) {
-				console.log(error)
+				alert(error)
 			} finally {
 				setIsLoading(false)
 			}
@@ -91,6 +105,10 @@ const SelectedMovie: FC<SelectedMovieProps> = ({
 
 	useEffect(() => {
 		document.title = title ? title : 'usePopcorn'
+
+		return () => {
+			document.title = 'usePopcorn'
+		}
 	}, [title])
 
 	const clickHandler = () => {

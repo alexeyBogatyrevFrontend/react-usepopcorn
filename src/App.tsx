@@ -99,6 +99,8 @@ export default function App() {
 	}
 
 	useEffect(() => {
+		// const controller = new AbortController()
+
 		const fetchMovies = async () => {
 			try {
 				setIsLoading(true)
@@ -113,9 +115,9 @@ export default function App() {
 
 				const data = await res.json()
 				if (data.Response === 'False') throw new Error('Movie not found')
-				setMovies(data.Search)
 
-				// console.log(data)
+				setSelectedId('')
+				setMovies(data.Search)
 			} catch (err) {
 				setError(err?.message)
 			} finally {
@@ -130,6 +132,10 @@ export default function App() {
 		}
 
 		fetchMovies()
+
+		// return () => {
+		// 	controller.abort()
+		// }
 	}, [query])
 
 	return (
