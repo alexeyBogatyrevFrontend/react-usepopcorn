@@ -89,6 +89,10 @@ const SelectedMovie: FC<SelectedMovieProps> = ({
 		getMovieDetails()
 	}, [selectedId])
 
+	useEffect(() => {
+		document.title = title ? title : 'usePopcorn'
+	}, [title])
+
 	const clickHandler = () => {
 		const data = {
 			imdbID,
@@ -114,7 +118,14 @@ const SelectedMovie: FC<SelectedMovieProps> = ({
 						<button className='btn-back' onClick={() => setSelectedId('')}>
 							&larr;
 						</button>
-						<img src={poster} alt={`Poster of ${movie} movie`} />
+						<img
+							src={
+								poster === 'N/A'
+									? 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+									: poster
+							}
+							alt={`Poster of ${movie} movie`}
+						/>
 
 						<div className='details-overview'>
 							<h2>{title}</h2>
