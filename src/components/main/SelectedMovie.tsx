@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { KEY, WatchedMovieData } from '../../App'
 import Loader from '../UI/Loader'
 import StarRating from '../rating/StarRating'
+import useKey from '../../custom-hooks/useKey'
 
 type SelectedMovieProps = {
 	selectedId: string
@@ -67,19 +68,7 @@ const SelectedMovie: FC<SelectedMovieProps> = ({
 		Genre: genre,
 	} = movie
 
-	useEffect(() => {
-		const callback = (e: KeyboardEvent) => {
-			if (e.code === 'Escape') {
-				setSelectedId('')
-			}
-		}
-
-		document.addEventListener('keydown', callback)
-
-		return () => {
-			document.removeEventListener('keydown', callback)
-		}
-	}, [setSelectedId])
+	useKey('Escape', setSelectedId)
 
 	useEffect(() => {
 		const getMovieDetails = async () => {
