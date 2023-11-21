@@ -82,7 +82,10 @@ const tempQuery = 'interstellar'
 
 export default function App() {
 	const [movies, setMovies] = useState([])
-	const [watched, setWatched] = useState<WatchedMovieData[]>([])
+	const [watched, setWatched] = useState<WatchedMovieData[]>(() => {
+		const storedValue = localStorage.getItem('watched')
+		if (storedValue) return JSON.parse(storedValue)
+	})
 	const [isLoading, setIsLoading] = useState(false)
 	const [error, setError] = useState('')
 	const [query, setQuery] = useState(tempQuery)
@@ -137,6 +140,10 @@ export default function App() {
 		// 	controller.abort()
 		// }
 	}, [query])
+
+	useEffect(() => {
+		localStorage.setItem('watched', JSON.stringify(watched))
+	}, [watched])
 
 	return (
 		<>
